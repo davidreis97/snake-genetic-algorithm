@@ -141,6 +141,7 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
     if(fruitEaten){
         allocateFruit();
     }else{
+        currentFitness++;
         snake.pop_back();
     }
     for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
