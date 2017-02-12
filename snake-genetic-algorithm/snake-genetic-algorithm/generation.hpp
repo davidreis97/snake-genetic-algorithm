@@ -9,6 +9,19 @@
 #ifndef generation_hpp
 #define generation_hpp
 
-#include <stdio.h>
+#include "chromosome.hpp"
+
+class Generation{
+private:
+    vector<Chromosome> subjects;
+    int generationID;
+    int maxFitness;
+    float averageFitness;
+    float mutationProbability;
+public:
+    void run();
+    void writeToFile(string filename);
+    Generation generateNextGeneration();
+};
 
 #endif /* generation_hpp */

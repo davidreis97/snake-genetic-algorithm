@@ -24,7 +24,7 @@ SnakeGame::SnakeGame(){
     snake.push_back(tail);
     
     for(int i = 0; i < 20; i++){
-        for(int j = 0; j < 19; j++){
+        for(int j = 0; j < 20; j++){
             gameBoard[i][j] = EMPTY;
         }
     }
@@ -48,6 +48,8 @@ void SnakeGame::allocateFruit() {
     int yfruit = rand()%18 + 1;
     if (gameBoard[xfruit][yfruit] == EMPTY){
         gameBoard[xfruit][yfruit] = FRUIT;
+        currentFruit.x = xfruit;
+        currentFruit.y = yfruit;
         //cout << "Random Numbers: " << xfruit << "x" << yfruit << endl;
     }else{
         //cout << "Realocating" << endl;
@@ -130,6 +132,8 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
             newHead.y = snake[0].y+1;
             snake.push_front(newHead);
             break;
+        case NONE:
+            cerr << "ERROR; INVALID DIRECTION (NONE)" << endl;
     }
     for(int x = 0; x < 20; x++){
         for (int y = 0; y < 20; y++){
@@ -141,7 +145,7 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
     if(fruitEaten){
         allocateFruit();
     }else{
-        currentFitness++;
+        currentFitness+=1;
         snake.pop_back();
     }
     for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
@@ -155,8 +159,41 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
     return alive;
 }
 
+bool SnakeGame::isGameWon() { //Needs testing
+    if (snake.size() == 361){
+        return true;
+    }else{
+        return false;
+    }
+}
 
+POS SnakeGame::getCurrentFruitRelativeToHead(){
+    POS diff;
+    diff.x = currentFruit.x - snake[0].x;
+    diff.y = currentFruit.y - snake[0].y;
+    return diff;
+}
 
+BLOCK_TYPE SnakeGame::getBlockNextToHead(DIRECTION dir){
+    switch (dir){
+        case LEFT:
+            return gameBoard[snake[0].x - 1][snake[0].y];
+            break;
+        case RIGHT:
+            return gameBoard[snake[0].x + 1][snake[0].y];
+            break;
+        case UP:
+            return gameBoard[snake[0].x][snake[0].y - 1];
+            break;
+        case DOWN:
+            return gameBoard[snake[0].x - 1][snake[0].y + 1];
+            break;
+        case NONE:
+            cerr << "ERROR! INVALID DIRECTION! (NONE)" << endl;
+            break;
+    }
+    return EMPTY;
+}
 
 
 

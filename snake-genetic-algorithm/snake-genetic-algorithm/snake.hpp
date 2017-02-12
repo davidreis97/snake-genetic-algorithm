@@ -22,7 +22,7 @@ typedef struct pos{
     int y;
 }POS;
 
-typedef enum direction {LEFT,RIGHT,UP,DOWN} DIRECTION;
+typedef enum direction {LEFT,RIGHT,UP,DOWN,NONE} DIRECTION;
 
 typedef enum blockType {EMPTY,SNAKEBODY,SNAKEHEAD,WALL,FRUIT} BLOCK_TYPE;
 
@@ -31,12 +31,15 @@ private:
     deque<POS> snake;
     BLOCK_TYPE gameBoard[20][20];
     int currentFitness;
+    POS currentFruit;
 public:
     SnakeGame();
     void drawGame();
     bool nextTick(DIRECTION nextMove);
     void allocateFruit();
     bool isGameWon();
+    POS getCurrentFruitRelativeToHead();
+    BLOCK_TYPE getBlockNextToHead(DIRECTION dir);
 };
 
 
