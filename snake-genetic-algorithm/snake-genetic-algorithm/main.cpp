@@ -6,12 +6,12 @@
 //  Copyright © 2017 David Reis. All rights reserved.
 //
 
-#include "chromosome.hpp"
+#include "generation.hpp"
 
 int main(int argc, const char * argv[]) {
     srand(time(NULL));
-    SnakeGame snake;
-    while(1){
-        snake.drawGame();
-    }
+    Generation gen(10,true);
+    gen.runSnake(true, 1);
+    
+    //FIX FITNESS CALCULATION BUG
 }

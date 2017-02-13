@@ -32,7 +32,9 @@ private:
     BLOCK_TYPE gameBoard[20][20];
     int currentFitness;
     POS currentFruit;
+    int tickCount;
 public:
+    int getFitness(){return currentFitness;}
     SnakeGame();
     void drawGame();
     bool nextTick(DIRECTION nextMove);

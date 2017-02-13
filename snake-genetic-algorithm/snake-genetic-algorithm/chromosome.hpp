@@ -42,11 +42,13 @@ typedef struct traits{
 class Chromosome{
 private:
     TRAITS traits;
-    int age;
+    //int age;
     int fitness;
 public:
-    TRAITS getTraits();
+    void setFitness(int fit){fitness = fit;}
+    int getFitness(){return fitness;}
     DIRECTION generateNextMove(SnakeGame snake);
+    void randomTraits();
 };
 
 #endif /* chromosome_hpp */

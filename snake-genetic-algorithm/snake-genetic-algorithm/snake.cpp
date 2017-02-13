@@ -41,6 +41,10 @@ SnakeGame::SnakeGame(){
     gameBoard[10][12] = SNAKEBODY;
     
     allocateFruit();
+    
+    currentFitness = 0;
+    
+    tickCount = 0;
 }
 
 void SnakeGame::allocateFruit() {
@@ -84,8 +88,13 @@ void SnakeGame::drawGame() {
 }
 
 bool SnakeGame::nextTick(DIRECTION nextMove){
+    tickCount++;
     bool fruitEaten = false;
     bool alive = true;
+    if(tickCount > 400){
+        alive = false;
+        goto end;
+    }
     POS newHead;
     switch(nextMove){
         case LEFT:
@@ -143,6 +152,7 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
         }
     }
     if(fruitEaten){
+        tickCount = 0;
         allocateFruit();
     }else{
         currentFitness+=1;

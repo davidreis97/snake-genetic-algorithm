@@ -80,3 +80,61 @@ DIRECTION Chromosome::generateNextMove(SnakeGame snake){
     
     return (DIRECTION)maxIndex;
 }
+
+
+DIRECTION randomDirection(){
+    int random = rand()%5;
+    switch (random){
+        case 0:
+            return LEFT;
+        case 1:
+            return RIGHT;
+        case 2:
+            return UP;
+        case 3:
+            return DOWN;
+        case 4:
+            return NONE;
+    }
+    return NONE;
+}
+
+void Chromosome::randomTraits(){
+    traits.EMPTY_RIGHT = randomDirection();
+    traits.EMPTY_LEFT = randomDirection();
+    traits.EMPTY_DOWN = randomDirection();
+    traits.EMPTY_UP = randomDirection();
+    traits.WALL_RIGHT = randomDirection();
+    traits.WALL_LEFT = randomDirection();
+    traits.WALL_DOWN = randomDirection();
+    traits.WALL_UP = randomDirection();
+    traits.FRUIT_RIGHT = randomDirection();
+    traits.FRUIT_LEFT = randomDirection();
+    traits.FRUIT_DOWN = randomDirection();
+    traits.FRUIT_UP = randomDirection();
+    traits.SNAKEBODY_RIGHT = randomDirection();
+    traits.SNAKEBODY_LEFT = randomDirection();
+    traits.SNAKEBODY_DOWN = randomDirection();
+    traits.SNAKEBODY_UP = randomDirection();
+    traits.FRUIT_POSITIVE_X = randomDirection();
+    traits.FRUIT_NEGATIVE_X = randomDirection();
+    traits.FRUIT_POSITIVE_Y = randomDirection();
+    traits.FRUIT_NEGATIVE_Y = randomDirection();
+    traits.emptyPriority = rand()%10;
+    traits.wallPriority = rand()%10;
+    traits.fruitPriority = rand()%10;;
+    traits.snakebodyPriority = rand()%10;;
+    traits.fruitDistancePriority = rand()%10;;
+}
+
+
+
+
+
+
+
+
+
+
+
+
