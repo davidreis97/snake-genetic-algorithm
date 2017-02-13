@@ -32,6 +32,10 @@ typedef struct traits{
     DIRECTION FRUIT_NEGATIVE_X;
     DIRECTION FRUIT_POSITIVE_Y;
     DIRECTION FRUIT_NEGATIVE_Y;
+    DIRECTION BANNED_MOVE_FACING_RIGHT;
+    DIRECTION BANNED_MOVE_FACING_LEFT;
+    DIRECTION BANNED_MOVE_FACING_DOWN;
+    DIRECTION BANNED_MOVE_FACING_UP;
     int emptyPriority;
     int wallPriority;
     int fruitPriority;
@@ -49,6 +53,10 @@ public:
     int getFitness(){return fitness;}
     DIRECTION generateNextMove(SnakeGame snake);
     void randomTraits();
+    bool operator<(Chromosome& chromo2);
+    bool operator>(Chromosome& chromo2);
+    TRAITS &getTraits(){return traits;}
+    Chromosome(){fitness=0;}
 };
 
 #endif /* chromosome_hpp */

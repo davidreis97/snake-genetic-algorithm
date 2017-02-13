@@ -154,8 +154,8 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
     if(fruitEaten){
         tickCount = 0;
         allocateFruit();
-    }else{
         currentFitness+=1;
+    }else{
         snake.pop_back();
     }
     for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
@@ -205,8 +205,20 @@ BLOCK_TYPE SnakeGame::getBlockNextToHead(DIRECTION dir){
     return EMPTY;
 }
 
-
-
+DIRECTION SnakeGame::getCurrentDirection(){
+    if (snake[0].x - snake[1].x == -1){
+        return LEFT;
+    }else if (snake[0].x - snake[1].x == 1){
+        return RIGHT;
+    }else if (snake[0].y - snake[1].y == 1){
+        return DOWN;
+    }else if (snake[0].y - snake[1].y == -1){
+        return UP;
+    }else{
+        cerr << "Error, current direction invalid." << endl;
+    }
+    return NONE;
+}
 
 
 

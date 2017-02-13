@@ -42,6 +42,7 @@ public:
     bool isGameWon();
     POS getCurrentFruitRelativeToHead();
     BLOCK_TYPE getBlockNextToHead(DIRECTION dir);
+    DIRECTION getCurrentDirection();
 };
 
 

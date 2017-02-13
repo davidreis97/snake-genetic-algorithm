@@ -12,12 +12,13 @@
 #include "chromosome.hpp"
 #include <chrono>
 #include <thread>
+#include <algorithm>
 
 template <class Comparable>
 void quickSort(vector<Comparable> &arr, int left, int right) { //http://www.algolist.net/Algorithms/Sorting/Quicksort
     int i = left, j = right;
-    int tmp;
-    int pivot = arr[(left + right) / 2];
+    Comparable tmp;
+    Comparable pivot = arr[(left + right) / 2];
     
     /* partition */
     while (i <= j) {
@@ -46,13 +47,15 @@ private:
     vector<Chromosome> subjects;
     int generationID;
     int maxFitness;
-    float averageFitness;
     int mutationProbability; //0 - 100
 public:
     void runSnake(bool drawGame, int timeBetweenMove);
     void writeToFile(string filename);
-    Generation generateNextGeneration();
-    Generation(int numberOfSubjects, bool randomize);
+    void generateNextGeneration();
+    Generation(int numberOfSubjects, int mutationProbability);
+    void mating(vector<Chromosome>& children, Chromosome father, Chromosome mother);
+    double getAverageFitness();
+    int getPopulation(){return subjects.size();}
 };
 
 #endif /* generation_hpp */

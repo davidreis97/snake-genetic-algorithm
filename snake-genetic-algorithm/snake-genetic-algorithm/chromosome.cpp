@@ -69,6 +69,16 @@ DIRECTION Chromosome::generateNextMove(SnakeGame snake){
         numberOfTimes[traits.FRUIT_NEGATIVE_Y]+= 1 * traits.fruitDistancePriority;
     }
     
+    if (snake.getCurrentDirection() == UP){
+        numberOfTimes[traits.BANNED_MOVE_FACING_UP] = -1;
+    }else if (snake.getCurrentDirection() == DOWN){
+        numberOfTimes[traits.BANNED_MOVE_FACING_DOWN] = -1;
+    }else if (snake.getCurrentDirection() == RIGHT){
+        numberOfTimes[traits.BANNED_MOVE_FACING_RIGHT] = -1;
+    }else if (snake.getCurrentDirection() == LEFT){
+        numberOfTimes[traits.BANNED_MOVE_FACING_LEFT] = -1;
+    }
+    
     int maxValue = -1;
     int maxIndex = -1;
     for(int i = 0; i < 4; i++){
@@ -120,11 +130,23 @@ void Chromosome::randomTraits(){
     traits.FRUIT_NEGATIVE_X = randomDirection();
     traits.FRUIT_POSITIVE_Y = randomDirection();
     traits.FRUIT_NEGATIVE_Y = randomDirection();
+    traits.BANNED_MOVE_FACING_RIGHT = randomDirection();
+    traits.BANNED_MOVE_FACING_LEFT = randomDirection();
+    traits.BANNED_MOVE_FACING_DOWN = randomDirection();
+    traits.BANNED_MOVE_FACING_UP = randomDirection();
     traits.emptyPriority = rand()%10;
     traits.wallPriority = rand()%10;
     traits.fruitPriority = rand()%10;;
     traits.snakebodyPriority = rand()%10;;
     traits.fruitDistancePriority = rand()%10;;
+}
+
+bool Chromosome::operator<(Chromosome& chromo2){
+    return fitness<chromo2.getFitness();
+}
+
+bool Chromosome::operator>(Chromosome& chromo2){
+    return fitness>chromo2.getFitness();
 }
 
 

@@ -9,9 +9,13 @@
 #include "generation.hpp"
 
 int main(int argc, const char * argv[]) {
+    cout.precision(10);
+    cout << fixed;
     srand(time(NULL));
-    Generation gen(10,true);
-    gen.runSnake(true, 1);
-    
-    //FIX FITNESS CALCULATION BUG
+    Generation gen(100000,true);
+    while(gen.getAverageFitness() < 5){
+        gen.runSnake(false, 0);
+        gen.generateNextGeneration();
+        cout << "Generation size is " << gen.getPopulation() << "." << endl;
+    }
 }
