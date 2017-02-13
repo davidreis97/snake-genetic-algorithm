@@ -11,7 +11,6 @@
 
 #include "chromosome.hpp"
 #include <chrono>
-#include <thread>
 #include <algorithm>
 
 template <class Comparable>
@@ -50,12 +49,13 @@ private:
     int mutationProbability; //0 - 100
 public:
     void runSnake(bool drawGame, int timeBetweenMove);
+    void runSnake(bool drawGame, int timeBetweenMove, Chromosome chromo);
     void writeToFile(string filename);
     void generateNextGeneration();
     Generation(int numberOfSubjects, int mutationProbability);
     void mating(vector<Chromosome>& children, Chromosome father, Chromosome mother);
     double getAverageFitness();
-    int getPopulation(){return subjects.size();}
+    unsigned long getPopulation(){return subjects.size();}
 };
 
 #endif /* generation_hpp */

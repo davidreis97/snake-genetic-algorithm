@@ -14,6 +14,8 @@
 #include <random>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -33,9 +35,11 @@ private:
     int currentFitness;
     POS currentFruit;
     int tickCount;
+    double totalTickCount;
 public:
-    int getFitness(){return currentFitness;}
+    int getFitness(){ return currentFitness/totalTickCount;}
     SnakeGame();
+    void createNewGame();
     void drawGame();
     bool nextTick(DIRECTION nextMove);
     void allocateFruit();

@@ -8,14 +8,32 @@
 
 #include "generation.hpp"
 
+
 int main(int argc, const char * argv[]) {
     cout.precision(10);
     cout << fixed;
-    srand(time(NULL));
-    Generation gen(100000,true);
-    while(gen.getAverageFitness() < 5){
-        gen.runSnake(false, 0);
+    srand((unsigned int)time(NULL));
+    Generation gen(100000,20);
+    while(1){
+        gen.runSnake(false, 250);
         gen.generateNextGeneration();
         cout << "Generation size is " << gen.getPopulation() << "." << endl;
     }
 }
+
+
+/*
+int main(){
+    cout << "Please insert generationID ([GEN]_[SUBJECT] or best[GEN]): " << endl;
+    string generationID;
+    cin >> generationID;
+    while(1){
+        stringstream ss;
+        ss << "chromo" << generationID;
+        cout << "Reading from " << ss.str() << endl;
+        Chromosome chromo;
+        chromo.readFromFile(ss.str());
+        chromo.runSnake(true, 150);
+        generationID++;
+    }
+}*/

@@ -10,8 +10,10 @@
 
 void Generation::runSnake(bool drawGame, int timeBetweenMove) {
     maxFitness = 0;
-    for(vector<Chromosome>::iterator it = subjects.begin(); it != subjects.end(); it++){
-        SnakeGame snake;
+    SnakeGame snake;
+    int subjectID = 0;
+    for(vector<Chromosome>::iterator it = subjects.begin(); it != subjects.end(); it++, subjectID++){
+        snake.createNewGame();
         while(snake.nextTick((*it).generateNextMove(snake))){
             if (drawGame) {
                 snake.drawGame();
@@ -22,7 +24,14 @@ void Generation::runSnake(bool drawGame, int timeBetweenMove) {
         if ((*it).getFitness() > maxFitness){
             maxFitness = (*it).getFitness();
             cout << maxFitness << endl;
-        } 
+            stringstream ss;
+            ss << generationID;
+            (*it).writeToFile("chromobest" + ss.str());
+        }else if (subjectID%10000 == 0){
+            stringstream ss;
+            ss << generationID << "_" << subjectID;
+            (*it).writeToFile("chromo" + ss.str());
+        }
     }
     cout << "Generation " << generationID << " has finished playing. Max Fitness was " << maxFitness << ", Average Fitness was " << getAverageFitness() << endl;
 }
@@ -48,7 +57,7 @@ void Generation::generateNextGeneration(){
     random_shuffle(parents.begin(), parents.end());
     vector<Chromosome> children;
     for(int i = 0; i < parents.size()-1; i+=2){
-        mating(children, parents[i], parents[i+1]); //PROBLEM
+        mating(children, parents[i], parents[i+1]);
     }
     parents.insert(parents.end(),children.begin(),children.end());
     while (subjects.size() < parents.size()){
@@ -125,7 +134,11 @@ void Generation::mating(vector<Chromosome>& children, Chromosome father, Chromos
     child2.getTraits().fruitDistancePriority = father.getTraits().fruitDistancePriority;
     
     if(rand()%100+1 < mutationProbability){
-        //MUTATION ALGORITHM
+        child1.mutate();
+    }
+    
+    if(rand()%100+1 < mutationProbability){
+        child2.mutate();
     }
     
     children.push_back(child1);

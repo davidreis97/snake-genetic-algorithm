@@ -10,6 +10,7 @@
 #define chromosome_hpp
 
 #include "snake.hpp"
+#include <thread>
 
 typedef struct traits{
     DIRECTION EMPTY_RIGHT;
@@ -49,6 +50,7 @@ private:
     //int age;
     int fitness;
 public:
+    void runSnake(bool drawGame, int timeBetweenMove);
     void setFitness(int fit){fitness = fit;}
     int getFitness(){return fitness;}
     DIRECTION generateNextMove(SnakeGame snake);
@@ -57,6 +59,9 @@ public:
     bool operator>(Chromosome& chromo2);
     TRAITS &getTraits(){return traits;}
     Chromosome(){fitness=0;}
+    void mutate();
+    void writeToFile(string filename);
+    void readFromFile(string filename);
 };
 
 #endif /* chromosome_hpp */
