@@ -146,7 +146,7 @@ void Generation::mating(vector<Chromosome>& children, Chromosome father, Chromos
 }
 
 double Generation::getAverageFitness(){
-    double totalFitness;
+    double totalFitness = 0;
     for (vector<Chromosome>::iterator it = subjects.begin(); it!= subjects.end();it++){
         totalFitness += (*it).getFitness();
     }

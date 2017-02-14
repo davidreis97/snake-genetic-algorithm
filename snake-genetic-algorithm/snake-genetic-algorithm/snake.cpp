@@ -200,7 +200,7 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
     if(fruitEaten){
         tickCount = 0;
         allocateFruit();
-        currentFitness+=10000;
+        currentFitness+=100;
     }else{
         snake.pop_back();
     }

@@ -37,7 +37,7 @@ private:
     int tickCount;
     double totalTickCount;
 public:
-    int getFitness(){ return currentFitness/totalTickCount;}
+    int getFitness(){ return (currentFitness*currentFitness)/totalTickCount;}
     SnakeGame();
     void createNewGame();
     void drawGame();
