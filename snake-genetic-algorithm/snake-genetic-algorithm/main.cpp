@@ -15,8 +15,8 @@ int main(int argc, const char * argv[]) {
     cout.precision(10);
     cout << fixed;
     srand((unsigned int)time(NULL));
-    //runFromStart(100000, 30, false, 0, 10000);
-    replayGeneration();
+    runFromStart(100000, 30, true, 100, 10000);
+    //replayGeneration();
 }
 
 void runFromStart(int numberOfSubjects, int mutationProbability, bool printGames, int timeBetweenTicks, int numberOfGenerations){
@@ -39,5 +39,5 @@ void replayGeneration(){
     cout << "Loading " << ss.str() << endl;
     Chromosome chromo;
     chromo.readFromFile(ss.str());
-    chromo.runSnake(true, 150, ss.str());
+    chromo.runSnake(true, 200, ss.str());
 }

@@ -88,10 +88,10 @@ void SnakeGame::createNewGame(){
 }
 
 void SnakeGame::allocateFruit() {
-    int xfruit = rand()%19 + 1;
-    int yfruit = rand()%19 + 1;
     bool success = false;
     while(!success){
+        int xfruit = rand()%19 + 1;
+        int yfruit = rand()%19 + 1;
         if (gameBoard[xfruit][yfruit] == EMPTY){
             gameBoard[xfruit][yfruit] = FRUIT;
             currentFruit.x = xfruit;
@@ -197,11 +197,7 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
         case NONE:
             cerr << "ERROR; INVALID DIRECTION (NONE)" << endl;
     }
-    if(fruitEaten){
-        tickCount = 0;
-        allocateFruit();
-        currentFitness+=100;
-    }else{
+    if(!fruitEaten){
         snake.pop_back();
     }
     for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
@@ -210,6 +206,11 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
         }else{
             gameBoard[(*it).x][(*it).y] = SNAKEBODY;
         }
+    }
+    if(fruitEaten){
+        tickCount = 0;
+        allocateFruit();
+        currentFitness+=100;
     }
     end:
     return alive;
