@@ -30,13 +30,14 @@ typedef enum blockType {EMPTY,SNAKEBODY,SNAKEHEAD,WALL,FRUIT} BLOCK_TYPE;
 
 class SnakeGame{
 private:
-    deque<POS> snake;
+    
     BLOCK_TYPE gameBoard[20][20];
     int currentFitness;
     POS currentFruit;
     int tickCount;
     double totalTickCount;
 public:
+    deque<POS> snake;
     int getFitness(){ return (currentFitness*currentFitness)/totalTickCount;}
     SnakeGame();
     void createNewGame();

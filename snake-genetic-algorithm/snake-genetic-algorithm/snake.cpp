@@ -88,16 +88,16 @@ void SnakeGame::createNewGame(){
 }
 
 void SnakeGame::allocateFruit() {
-    int xfruit = rand()%18 + 1;
-    int yfruit = rand()%18 + 1;
-    if (gameBoard[xfruit][yfruit] == EMPTY){
-        gameBoard[xfruit][yfruit] = FRUIT;
-        currentFruit.x = xfruit;
-        currentFruit.y = yfruit;
-        //cout << "Random Numbers: " << xfruit << "x" << yfruit << endl;
-    }else{
-        //cout << "Realocating" << endl;
-        allocateFruit();
+    int xfruit = rand()%19 + 1;
+    int yfruit = rand()%19 + 1;
+    bool success = false;
+    while(!success){
+        if (gameBoard[xfruit][yfruit] == EMPTY){
+            gameBoard[xfruit][yfruit] = FRUIT;
+            currentFruit.x = xfruit;
+            currentFruit.y = yfruit;
+            success = true;
+        }
     }
 }
 
@@ -242,7 +242,7 @@ BLOCK_TYPE SnakeGame::getBlockNextToHead(DIRECTION dir){
             return gameBoard[snake[0].x][snake[0].y - 1];
             break;
         case DOWN:
-            return gameBoard[snake[0].x - 1][snake[0].y + 1];
+            return gameBoard[snake[0].x][snake[0].y + 1];
             break;
         case NONE:
             cerr << "ERROR! INVALID DIRECTION! (NONE)" << endl;

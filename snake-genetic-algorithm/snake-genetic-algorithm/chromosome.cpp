@@ -18,69 +18,59 @@ DIRECTION Chromosome::generateNextMove(SnakeGame snake){
     BLOCK_TYPE block_at_up = snake.getBlockNextToHead(UP);
     
     if (block_at_left == WALL){
-        numberOfTimes[traits.WALL_LEFT]+= 1 * traits.wallPriority;
+        numberOfTimes[traits.NOT_MOVE_WALL_LEFT]-= 1 * traits.wallPriority;
     }else if (block_at_left == EMPTY){
-        numberOfTimes[traits.EMPTY_LEFT]+= 1 * traits.emptyPriority;
+        numberOfTimes[traits.MOVE_EMPTY_LEFT]+= 1 * traits.emptyPriority;
     }else if (block_at_left == FRUIT){
-        numberOfTimes[traits.FRUIT_LEFT]+= 1 * traits.fruitPriority;
+        numberOfTimes[traits.MOVE_FRUIT_LEFT]+= 1 * traits.fruitPriority;
     }else if (block_at_left == SNAKEBODY){
-        numberOfTimes[traits.SNAKEBODY_LEFT]+= 1 * traits.snakebodyPriority;
+        numberOfTimes[traits.NOT_MOVE_SNAKEBODY_LEFT]-= 1 * traits.snakebodyPriority;
     }
     
     if (block_at_right == SNAKEBODY){
-        numberOfTimes[traits.SNAKEBODY_RIGHT]+= 1 * traits.snakebodyPriority;
+        numberOfTimes[traits.NOT_MOVE_SNAKEBODY_RIGHT]-= 1 * traits.snakebodyPriority;
     }else if (block_at_right == FRUIT){
-        numberOfTimes[traits.FRUIT_RIGHT]+= 1 * traits.fruitPriority;
+        numberOfTimes[traits.MOVE_FRUIT_RIGHT]+= 1 * traits.fruitPriority;
     }else if (block_at_right == WALL){
-        numberOfTimes[traits.WALL_RIGHT]+= 1 * traits.wallPriority;
+        numberOfTimes[traits.NOT_MOVE_WALL_RIGHT]-= 1 * traits.wallPriority;
     }else if (block_at_right == EMPTY){
-        numberOfTimes[traits.EMPTY_RIGHT]+= 1 * traits.emptyPriority;
+        numberOfTimes[traits.MOVE_EMPTY_RIGHT]+= 1 * traits.emptyPriority;
     }
     
     if (block_at_down == FRUIT){
-        numberOfTimes[traits.FRUIT_DOWN]+= 1 * traits.fruitPriority;
+        numberOfTimes[traits.MOVE_FRUIT_DOWN]+= 1 * traits.fruitPriority;
     }else if (block_at_down == WALL){
-        numberOfTimes[traits.WALL_DOWN]+= 1 * traits.wallPriority;
+        numberOfTimes[traits.NOT_MOVE_WALL_LEFT]-= 1 * traits.wallPriority;
     }else if (block_at_down == EMPTY){
-        numberOfTimes[traits.EMPTY_DOWN]+= 1 * traits.emptyPriority;
+        numberOfTimes[traits.MOVE_EMPTY_DOWN]+= 1 * traits.emptyPriority;
     }else if (block_at_down == SNAKEBODY){
-        numberOfTimes[traits.SNAKEBODY_DOWN]+= 1 * traits.snakebodyPriority;
+        numberOfTimes[traits.NOT_MOVE_SNAKEBODY_DOWN]-= 1 * traits.snakebodyPriority;
     }
     
     if (block_at_up == EMPTY){
-        numberOfTimes[traits.EMPTY_UP]+= 1 * traits.emptyPriority;
+        numberOfTimes[traits.MOVE_EMPTY_UP]+= 1 * traits.emptyPriority;
     }else if (block_at_up == WALL){
-        numberOfTimes[traits.WALL_UP]+= 1 * traits.wallPriority;
+        numberOfTimes[traits.NOT_MOVE_WALL_UP]-= 1 * traits.wallPriority;
     }else if (block_at_up == FRUIT){
-        numberOfTimes[traits.FRUIT_UP]+= 1 * traits.fruitPriority;
+        numberOfTimes[traits.MOVE_FRUIT_UP]+= 1 * traits.fruitPriority;
     }else if (block_at_up == SNAKEBODY){
-        numberOfTimes[traits.SNAKEBODY_UP]+= 1 * traits.snakebodyPriority;
+        numberOfTimes[traits.NOT_MOVE_SNAKEBODY_UP]-= 1 * traits.snakebodyPriority;
     }
     
     if (snake.getCurrentFruitRelativeToHead().x >= 0){
-        numberOfTimes[traits.FRUIT_POSITIVE_X]+= 1 * traits.fruitDistancePriority;
+        numberOfTimes[traits.MOVE_FRUIT_POSITIVE_X]+= 1 * traits.fruitDistancePriority;
     }else{
-        numberOfTimes[traits.FRUIT_NEGATIVE_X]+= 1 * traits.fruitDistancePriority;
+        numberOfTimes[traits.MOVE_FRUIT_NEGATIVE_X]+= 1 * traits.fruitDistancePriority;
     }
     
     if (snake.getCurrentFruitRelativeToHead().y >= 0){
-        numberOfTimes[traits.FRUIT_POSITIVE_Y]+= 1 * traits.fruitDistancePriority;
+        numberOfTimes[traits.MOVE_FRUIT_POSITIVE_Y]+= 1 * traits.fruitDistancePriority;
     }else{
-        numberOfTimes[traits.FRUIT_NEGATIVE_Y]+= 1 * traits.fruitDistancePriority;
+        numberOfTimes[traits.MOVE_FRUIT_NEGATIVE_Y]+= 1 * traits.fruitDistancePriority;
     }
     
-    if (snake.getCurrentDirection() == UP){
-        numberOfTimes[traits.BANNED_MOVE_FACING_UP] = -1;
-    }else if (snake.getCurrentDirection() == DOWN){
-        numberOfTimes[traits.BANNED_MOVE_FACING_DOWN] = -1;
-    }else if (snake.getCurrentDirection() == RIGHT){
-        numberOfTimes[traits.BANNED_MOVE_FACING_RIGHT] = -1;
-    }else if (snake.getCurrentDirection() == LEFT){
-        numberOfTimes[traits.BANNED_MOVE_FACING_LEFT] = -1;
-    }
-    
-    int maxValue = -1;
-    int maxIndex = -1;
+    int maxValue = numberOfTimes[0];
+    int maxIndex = 0;
     for(int i = 0; i < 4; i++){
         if (numberOfTimes[i] > maxValue){
             maxIndex = i;
@@ -110,30 +100,26 @@ DIRECTION randomDirection(){
 }
 
 void Chromosome::randomTraits(){
-    traits.EMPTY_RIGHT = randomDirection();
-    traits.EMPTY_LEFT = randomDirection();
-    traits.EMPTY_DOWN = randomDirection();
-    traits.EMPTY_UP = randomDirection();
-    traits.WALL_RIGHT = randomDirection();
-    traits.WALL_LEFT = randomDirection();
-    traits.WALL_DOWN = randomDirection();
-    traits.WALL_UP = randomDirection();
-    traits.FRUIT_RIGHT = randomDirection();
-    traits.FRUIT_LEFT = randomDirection();
-    traits.FRUIT_DOWN = randomDirection();
-    traits.FRUIT_UP = randomDirection();
-    traits.SNAKEBODY_RIGHT = randomDirection();
-    traits.SNAKEBODY_LEFT = randomDirection();
-    traits.SNAKEBODY_DOWN = randomDirection();
-    traits.SNAKEBODY_UP = randomDirection();
-    traits.FRUIT_POSITIVE_X = randomDirection();
-    traits.FRUIT_NEGATIVE_X = randomDirection();
-    traits.FRUIT_POSITIVE_Y = randomDirection();
-    traits.FRUIT_NEGATIVE_Y = randomDirection();
-    traits.BANNED_MOVE_FACING_RIGHT = randomDirection();
-    traits.BANNED_MOVE_FACING_LEFT = randomDirection();
-    traits.BANNED_MOVE_FACING_DOWN = randomDirection();
-    traits.BANNED_MOVE_FACING_UP = randomDirection();
+    traits.MOVE_EMPTY_RIGHT = randomDirection();
+    traits.MOVE_EMPTY_LEFT = randomDirection();
+    traits.MOVE_EMPTY_DOWN = randomDirection();
+    traits.MOVE_EMPTY_UP = randomDirection();
+    traits.NOT_MOVE_WALL_RIGHT = randomDirection();
+    traits.NOT_MOVE_WALL_LEFT = randomDirection();
+    traits.NOT_MOVE_WALL_LEFT = randomDirection();
+    traits.NOT_MOVE_WALL_UP = randomDirection();
+    traits.MOVE_FRUIT_RIGHT = randomDirection();
+    traits.MOVE_FRUIT_LEFT = randomDirection();
+    traits.MOVE_FRUIT_DOWN = randomDirection();
+    traits.MOVE_FRUIT_UP = randomDirection();
+    traits.NOT_MOVE_SNAKEBODY_RIGHT = randomDirection();
+    traits.NOT_MOVE_SNAKEBODY_LEFT = randomDirection();
+    traits.NOT_MOVE_SNAKEBODY_DOWN = randomDirection();
+    traits.NOT_MOVE_SNAKEBODY_UP = randomDirection();
+    traits.MOVE_FRUIT_POSITIVE_X = randomDirection();
+    traits.MOVE_FRUIT_NEGATIVE_X = randomDirection();
+    traits.MOVE_FRUIT_POSITIVE_Y = randomDirection();
+    traits.MOVE_FRUIT_NEGATIVE_Y = randomDirection();
     traits.emptyPriority = rand()%10;
     traits.wallPriority = rand()%10;
     traits.fruitPriority = rand()%10;
@@ -152,93 +138,81 @@ bool Chromosome::operator>(Chromosome& chromo2){
 void Chromosome::mutate(){
     int i = 5;
     while (i > 0){
-        int choice = rand()%29;
+        int choice = rand()%25;
         switch (choice){
             case 0:
-                traits.EMPTY_RIGHT = randomDirection();
+                traits.MOVE_EMPTY_RIGHT = randomDirection();
                 break;
             case 1:
-                traits.EMPTY_LEFT = randomDirection();
+                traits.MOVE_EMPTY_LEFT = randomDirection();
                 break;
             case 2:
-                traits.EMPTY_DOWN = randomDirection();
+                traits.MOVE_EMPTY_DOWN = randomDirection();
                 break;
             case 3:
-                traits.EMPTY_UP = randomDirection();
+                traits.MOVE_EMPTY_UP = randomDirection();
                 break;
             case 4:
-                traits.WALL_RIGHT = randomDirection();
+                traits.NOT_MOVE_WALL_RIGHT = randomDirection();
                 break;
             case 5:
-                traits.WALL_LEFT = randomDirection();
+                traits.NOT_MOVE_WALL_LEFT = randomDirection();
                 break;
             case 6:
-                traits.WALL_DOWN = randomDirection();
+                traits.NOT_MOVE_WALL_LEFT = randomDirection();
                 break;
             case 7:
-                traits.WALL_UP = randomDirection();
+                traits.NOT_MOVE_WALL_UP = randomDirection();
                 break;
             case 8:
-                traits.FRUIT_RIGHT = randomDirection();
+                traits.MOVE_FRUIT_RIGHT = randomDirection();
                 break;
             case 9:
-                traits.FRUIT_LEFT = randomDirection();
+                traits.MOVE_FRUIT_LEFT = randomDirection();
                 break;
             case 10:
-                traits.FRUIT_DOWN = randomDirection();
+                traits.MOVE_FRUIT_DOWN = randomDirection();
                 break;
             case 11:
-                traits.FRUIT_UP = randomDirection();
+                traits.MOVE_FRUIT_UP = randomDirection();
                 break;
             case 12:
-                traits.SNAKEBODY_RIGHT = randomDirection();
+                traits.NOT_MOVE_SNAKEBODY_RIGHT = randomDirection();
                 break;
             case 13:
-                traits.SNAKEBODY_LEFT = randomDirection();
+                traits.NOT_MOVE_SNAKEBODY_LEFT = randomDirection();
                 break;
             case 14:
-                traits.SNAKEBODY_DOWN = randomDirection();
+                traits.NOT_MOVE_SNAKEBODY_DOWN = randomDirection();
                 break;
             case 15:
-                traits.SNAKEBODY_UP = randomDirection();
+                traits.NOT_MOVE_SNAKEBODY_UP = randomDirection();
                 break;
             case 16:
-                traits.FRUIT_POSITIVE_X = randomDirection();
+                traits.MOVE_FRUIT_POSITIVE_X = randomDirection();
                 break;
             case 17:
-                traits.FRUIT_NEGATIVE_X = randomDirection();
+                traits.MOVE_FRUIT_NEGATIVE_X = randomDirection();
                 break;
             case 18:
-                traits.FRUIT_POSITIVE_Y = randomDirection();
+                traits.MOVE_FRUIT_POSITIVE_Y = randomDirection();
                 break;
             case 19:
-                traits.FRUIT_NEGATIVE_Y = randomDirection();
+                traits.MOVE_FRUIT_NEGATIVE_Y = randomDirection();
                 break;
             case 20:
-                traits.BANNED_MOVE_FACING_RIGHT = randomDirection();
-                break;
-            case 21:
-                traits.BANNED_MOVE_FACING_LEFT = randomDirection();
-                break;
-            case 22:
-                traits.BANNED_MOVE_FACING_DOWN = randomDirection();
-                break;
-            case 23:
-                traits.BANNED_MOVE_FACING_UP = randomDirection();
-                break;
-            case 24:
                 traits.emptyPriority = rand()%10;
                 break;
-            case 25:
+            case 21:
                 traits.wallPriority = rand()%10;
                 break;
-            case 26:
+            case 22:
                 traits.fruitPriority = rand()%10;
                 break;
-            case 27:
+            case 23:
                 traits.snakebodyPriority = rand()%10;
                 break;
-            case 28:
+            case 24:
                 traits.fruitDistancePriority = rand()%10;
                 break;
         }
@@ -249,7 +223,7 @@ void Chromosome::mutate(){
 void Chromosome::writeToFile(string filename){
     ofstream file;
     file.open(filename);
-    file << traits.EMPTY_RIGHT << endl << traits.EMPTY_LEFT << endl << traits.EMPTY_DOWN << endl << traits.EMPTY_UP << endl << traits.WALL_RIGHT << endl << traits.WALL_LEFT << endl << traits.WALL_DOWN << endl << traits.WALL_UP << endl << traits.FRUIT_RIGHT << endl << traits.FRUIT_LEFT << endl << traits.FRUIT_DOWN << endl << traits.FRUIT_UP << endl << traits.SNAKEBODY_RIGHT << endl << traits.SNAKEBODY_LEFT << endl << traits.SNAKEBODY_DOWN << endl << traits.SNAKEBODY_UP << endl << traits.FRUIT_POSITIVE_X << endl << traits.FRUIT_NEGATIVE_X << endl << traits.FRUIT_POSITIVE_Y << endl << traits.FRUIT_NEGATIVE_Y << endl << traits.BANNED_MOVE_FACING_RIGHT << endl << traits.BANNED_MOVE_FACING_LEFT << endl << traits.BANNED_MOVE_FACING_DOWN << endl << traits.BANNED_MOVE_FACING_UP << endl << traits.emptyPriority << endl << traits.wallPriority << endl << traits.fruitPriority << endl << traits.snakebodyPriority << endl << traits.fruitDistancePriority;
+    file << traits.MOVE_EMPTY_RIGHT << endl << traits.MOVE_EMPTY_LEFT << endl << traits.MOVE_EMPTY_DOWN << endl << traits.MOVE_EMPTY_UP << endl << traits.NOT_MOVE_WALL_RIGHT << endl << traits.NOT_MOVE_WALL_LEFT << endl << traits.NOT_MOVE_WALL_LEFT << endl << traits.NOT_MOVE_WALL_UP << endl << traits.MOVE_FRUIT_RIGHT << endl << traits.MOVE_FRUIT_LEFT << endl << traits.MOVE_FRUIT_DOWN << endl << traits.MOVE_FRUIT_UP << endl << traits.NOT_MOVE_SNAKEBODY_RIGHT << endl << traits.NOT_MOVE_SNAKEBODY_LEFT << endl << traits.NOT_MOVE_SNAKEBODY_DOWN << endl << traits.NOT_MOVE_SNAKEBODY_UP << endl << traits.MOVE_FRUIT_POSITIVE_X << endl << traits.MOVE_FRUIT_NEGATIVE_X << endl << traits.MOVE_FRUIT_POSITIVE_Y << endl << traits.MOVE_FRUIT_NEGATIVE_Y << endl << traits.emptyPriority << endl << traits.wallPriority << endl << traits.fruitPriority << endl << traits.snakebodyPriority << endl << traits.fruitDistancePriority;
     file.close();
 }
 
@@ -258,57 +232,51 @@ void Chromosome::readFromFile(string filename) {
     string currentLine;
     fstream file;
     file.open(filename.c_str(), fstream::in);
-    if (file.fail())
-        cout << "Requested file was not found/not available." << endl;
+    if (file.fail()){
+        cerr << "Requested file was not found/not available." << endl;
+        exit(0);
+    }
     else{
         getline(file, currentLine);
-        traits.EMPTY_RIGHT = (DIRECTION)stoi(currentLine);
+        traits.MOVE_EMPTY_RIGHT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.EMPTY_LEFT = (DIRECTION)stoi(currentLine);
+        traits.MOVE_EMPTY_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.EMPTY_DOWN = (DIRECTION)stoi(currentLine);
+        traits.MOVE_EMPTY_DOWN = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.EMPTY_UP = (DIRECTION)stoi(currentLine);
+        traits.MOVE_EMPTY_UP = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.WALL_RIGHT = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_WALL_RIGHT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.WALL_LEFT = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_WALL_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.WALL_DOWN = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_WALL_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.WALL_UP = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_WALL_UP = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_RIGHT = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_RIGHT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_LEFT = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_DOWN = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_DOWN = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_UP = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_UP = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.SNAKEBODY_RIGHT = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_SNAKEBODY_RIGHT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.SNAKEBODY_LEFT = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_SNAKEBODY_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.SNAKEBODY_DOWN = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_SNAKEBODY_DOWN = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.SNAKEBODY_UP = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_SNAKEBODY_UP = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_POSITIVE_X = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_POSITIVE_X = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_NEGATIVE_X = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_NEGATIVE_X = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_POSITIVE_Y = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_POSITIVE_Y = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.FRUIT_NEGATIVE_Y = (DIRECTION)stoi(currentLine);
-        getline(file, currentLine);
-        traits.BANNED_MOVE_FACING_RIGHT = (DIRECTION)stoi(currentLine);
-        getline(file, currentLine);
-        traits.BANNED_MOVE_FACING_LEFT = (DIRECTION)stoi(currentLine);
-        getline(file, currentLine);
-        traits.BANNED_MOVE_FACING_DOWN = (DIRECTION)stoi(currentLine);
-        getline(file, currentLine);
-        traits.BANNED_MOVE_FACING_UP = (DIRECTION)stoi(currentLine);
+        traits.MOVE_FRUIT_NEGATIVE_Y = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
         traits.emptyPriority = stoi(currentLine);
         getline(file, currentLine);
@@ -323,22 +291,18 @@ void Chromosome::readFromFile(string filename) {
     file.close();
 }
 
-void Chromosome::runSnake(bool drawGame, int timeBetweenMove){
+void Chromosome::runSnake(bool drawGame, int timeBetweenMove, string readingFrom){
     SnakeGame snake;
     bool alive = true;
     while(alive){
         if (drawGame) {
+            cout << "Reading from " << readingFrom << endl;
             snake.drawGame();
             if (timeBetweenMove) std::this_thread::sleep_for(std::chrono::milliseconds(timeBetweenMove));
         }
         alive = snake.nextTick(generateNextMove(snake));
     }
-    cout << "Game ended, final fitness was " << snake.getFitness() << ". Would you like to start again with the same generation and same settings? (y/N)" << endl;
-    string input;
-    cin >> input;
-    if (input != "N" && input != (&"N"['\n']) && input != (&"N"['\0'])){
-        runSnake(drawGame,timeBetweenMove);
-    }
+    cout << "Game ended, final fitness was " << snake.getFitness() << "." << endl;
 }
 
 
