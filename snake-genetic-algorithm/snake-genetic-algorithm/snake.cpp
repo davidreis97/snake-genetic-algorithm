@@ -127,16 +127,17 @@ void SnakeGame::drawGame() {
     }
 }
 
-bool SnakeGame::nextTick(DIRECTION nextMove){
-    tickCount++;
-    totalTickCount++;
-    bool fruitEaten = false;
-    bool alive = true;
-    if(tickCount > 400){
-        alive = false;
-        goto end;
-    }
-    POS newHead;
+bool SnakeGame::nextTick(DIRECTION nextMove) {
+	tickCount++;
+	totalTickCount++;
+	bool fruitEaten = false;
+	bool alive = true;
+	if (tickCount > 400) {
+		alive = false;
+		goto end;
+	}
+	POS newHead;
+	gameBoard[snake[0].x][snake[0].y] = SNAKEBODY;
     switch(nextMove){
         case LEFT:
             if (gameBoard[snake[0].x - 1][snake[0].y] == FRUIT){
@@ -144,9 +145,6 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
             }else if (gameBoard[snake[0].x - 1][snake[0].y] == WALL || gameBoard[snake[0].x - 1][snake[0].y] == SNAKEBODY){
                 alive = false;
                 goto end;
-            }
-            for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
-                gameBoard[(*it).x][(*it).y] = EMPTY;
             }
             newHead.x = snake[0].x-1;
             newHead.y = snake[0].y;
@@ -159,9 +157,6 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
                 alive = false;
                 goto end;
             }
-            for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
-                gameBoard[(*it).x][(*it).y] = EMPTY;
-            }
             newHead.x = snake[0].x+1;
             newHead.y = snake[0].y;
             snake.push_front(newHead);
@@ -172,9 +167,6 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
             }else if (gameBoard[snake[0].x][snake[0].y-1] == WALL || gameBoard[snake[0].x][snake[0].y-1] == SNAKEBODY){
                 alive = false;
                 goto end;
-            }
-            for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
-                gameBoard[(*it).x][(*it).y] = EMPTY;
             }
             newHead.x = snake[0].x;
             newHead.y = snake[0].y-1;
@@ -187,9 +179,6 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
                 alive = false;
                 goto end;
             }
-            for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
-                gameBoard[(*it).x][(*it).y] = EMPTY;
-            }
             newHead.x = snake[0].x;
             newHead.y = snake[0].y+1;
             snake.push_front(newHead);
@@ -197,15 +186,10 @@ bool SnakeGame::nextTick(DIRECTION nextMove){
         case NONE:
             cerr << "ERROR; INVALID DIRECTION (NONE)" << endl;
     }
+	gameBoard[snake[0].x][snake[0].y] = SNAKEHEAD;
     if(!fruitEaten){
+		gameBoard[snake[snake.size() - 1].x][snake[snake.size() - 1].y] = EMPTY;
         snake.pop_back();
-    }
-    for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
-        if (it == snake.begin()){
-            gameBoard[(*it).x][(*it).y] = SNAKEHEAD;
-        }else{
-            gameBoard[(*it).x][(*it).y] = SNAKEBODY;
-        }
     }
     if(fruitEaten){
         tickCount = 0;

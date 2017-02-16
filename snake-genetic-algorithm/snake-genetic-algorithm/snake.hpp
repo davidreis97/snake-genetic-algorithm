@@ -35,7 +35,7 @@ private:
     int currentFitness;
     POS currentFruit;
     int tickCount;
-    double totalTickCount;
+    int totalTickCount;
 public:
     deque<POS> snake;
     int getFitness(){ return (currentFitness*currentFitness)/totalTickCount;}

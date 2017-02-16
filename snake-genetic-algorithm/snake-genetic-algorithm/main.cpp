@@ -15,8 +15,19 @@ int main(int argc, const char * argv[]) {
     cout.precision(10);
     cout << fixed;
     srand((unsigned int)time(NULL));
-    runFromStart(100000, 30, true, 100, 10000);
-    //replayGeneration();
+	cout << "Snake Genetic Algorithm" << endl;
+	cout << "1- Run the simulation" << endl;
+	cout << "2- Replay a specific chromosome" << endl;
+	int choice = 0;
+	cin >> choice;
+	switch (choice) {
+		case 1:
+			runFromStart(100000, 30, true, 100, 10000);
+			break;
+		case 2:
+			replayGeneration();
+			break;
+	}
 }
 
 void runFromStart(int numberOfSubjects, int mutationProbability, bool printGames, int timeBetweenTicks, int numberOfGenerations){
