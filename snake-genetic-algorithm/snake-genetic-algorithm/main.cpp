@@ -10,6 +10,7 @@
 
 void replayGeneration();
 void runFromStart(int numberOfSubjects, int mutationProbability, bool printGames, int timeBetweenTicks, int numberOfGenerations);
+void runSimulationMenu();
 
 int main(int argc, const char * argv[]) {
     cout.precision(10);
@@ -22,12 +23,29 @@ int main(int argc, const char * argv[]) {
 	cin >> choice;
 	switch (choice) {
 		case 1:
-			runFromStart(100000, 30, true, 100, 10000);
+            runSimulationMenu();
 			break;
 		case 2:
 			replayGeneration();
 			break;
 	}
+}
+
+void runSimulationMenu(){
+    cout << "Do you wish to see the games playing as they are generated? (Answering yes will make the simulation significantly slower)" << endl;
+    cout << "1- Yes" << endl;
+    cout << "2- No" << endl;
+    int choice = 0;
+    cin >> choice;
+    switch (choice) {
+        case 1:
+            runFromStart(100000, 30, true, 100, 10000);
+            break;
+        case 2:
+            runFromStart(100000, 30, false, 100, 10000);
+            break;
+    }
+
 }
 
 void runFromStart(int numberOfSubjects, int mutationProbability, bool printGames, int timeBetweenTicks, int numberOfGenerations){

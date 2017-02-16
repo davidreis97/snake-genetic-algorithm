@@ -11,8 +11,9 @@
 void Generation::runSnake(bool drawGame, int timeBetweenMove) {
     maxFitness = 0;
     int subjectID = 0;
+    SnakeGame snake;
     for(vector<Chromosome>::iterator it = subjects.begin(); it != subjects.end(); it++, subjectID++){
-        SnakeGame snake;
+        snake.createNewGame();
         while(snake.nextTick((*it).generateNextMove(snake))){
             if (drawGame) {
                 snake.drawGame();
