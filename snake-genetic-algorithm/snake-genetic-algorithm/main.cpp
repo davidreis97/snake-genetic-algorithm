@@ -39,10 +39,10 @@ void runSimulationMenu(){
     cin >> choice;
     switch (choice) {
         case 1:
-            runFromStart(100000, 30, true, 100, 10000);
+            runFromStart(100000, 30, true, 100, 100);
             break;
         case 2:
-            runFromStart(100000, 30, false, 100, 10000);
+            runFromStart(100000, 30, false, 100, 100);
             break;
     }
 

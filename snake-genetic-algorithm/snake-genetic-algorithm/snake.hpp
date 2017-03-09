@@ -40,7 +40,6 @@ public:
     deque<POS> snake;
     int getFitness(){ return (currentFitness*currentFitness)/totalTickCount;}
     SnakeGame();
-    void createNewGame();
     void drawGame();
     bool nextTick(DIRECTION nextMove);
     void allocateFruit();
@@ -48,6 +47,7 @@ public:
     POS getCurrentFruitRelativeToHead();
     BLOCK_TYPE getBlockNextToHead(DIRECTION dir);
     DIRECTION getCurrentDirection();
+    void resetGame();
 };
 
 

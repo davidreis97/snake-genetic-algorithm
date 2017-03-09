@@ -40,7 +40,7 @@ DIRECTION Chromosome::generateNextMove(SnakeGame snake){
     if (block_at_down == FRUIT){
         numberOfTimes[traits.MOVE_FRUIT_DOWN]+= 1 * traits.fruitPriority;
     }else if (block_at_down == WALL){
-        numberOfTimes[traits.NOT_MOVE_WALL_LEFT]-= 1 * traits.wallPriority;
+        numberOfTimes[traits.NOT_MOVE_WALL_DOWN]-= 1 * traits.wallPriority;
     }else if (block_at_down == EMPTY){
         numberOfTimes[traits.MOVE_EMPTY_DOWN]+= 1 * traits.emptyPriority;
     }else if (block_at_down == SNAKEBODY){
@@ -106,7 +106,7 @@ void Chromosome::randomTraits(){
     traits.MOVE_EMPTY_UP = randomDirection();
     traits.NOT_MOVE_WALL_RIGHT = randomDirection();
     traits.NOT_MOVE_WALL_LEFT = randomDirection();
-    traits.NOT_MOVE_WALL_LEFT = randomDirection();
+    traits.NOT_MOVE_WALL_DOWN = randomDirection();
     traits.NOT_MOVE_WALL_UP = randomDirection();
     traits.MOVE_FRUIT_RIGHT = randomDirection();
     traits.MOVE_FRUIT_LEFT = randomDirection();
@@ -159,7 +159,7 @@ void Chromosome::mutate(){
                 traits.NOT_MOVE_WALL_LEFT = randomDirection();
                 break;
             case 6:
-                traits.NOT_MOVE_WALL_LEFT = randomDirection();
+                traits.NOT_MOVE_WALL_DOWN = randomDirection();
                 break;
             case 7:
                 traits.NOT_MOVE_WALL_UP = randomDirection();
@@ -223,7 +223,7 @@ void Chromosome::mutate(){
 void Chromosome::writeToFile(string filename){
     ofstream file;
     file.open(filename);
-    file << traits.MOVE_EMPTY_RIGHT << endl << traits.MOVE_EMPTY_LEFT << endl << traits.MOVE_EMPTY_DOWN << endl << traits.MOVE_EMPTY_UP << endl << traits.NOT_MOVE_WALL_RIGHT << endl << traits.NOT_MOVE_WALL_LEFT << endl << traits.NOT_MOVE_WALL_LEFT << endl << traits.NOT_MOVE_WALL_UP << endl << traits.MOVE_FRUIT_RIGHT << endl << traits.MOVE_FRUIT_LEFT << endl << traits.MOVE_FRUIT_DOWN << endl << traits.MOVE_FRUIT_UP << endl << traits.NOT_MOVE_SNAKEBODY_RIGHT << endl << traits.NOT_MOVE_SNAKEBODY_LEFT << endl << traits.NOT_MOVE_SNAKEBODY_DOWN << endl << traits.NOT_MOVE_SNAKEBODY_UP << endl << traits.MOVE_FRUIT_POSITIVE_X << endl << traits.MOVE_FRUIT_NEGATIVE_X << endl << traits.MOVE_FRUIT_POSITIVE_Y << endl << traits.MOVE_FRUIT_NEGATIVE_Y << endl << traits.emptyPriority << endl << traits.wallPriority << endl << traits.fruitPriority << endl << traits.snakebodyPriority << endl << traits.fruitDistancePriority;
+    file << traits.MOVE_EMPTY_RIGHT << endl << traits.MOVE_EMPTY_LEFT << endl << traits.MOVE_EMPTY_DOWN << endl << traits.MOVE_EMPTY_UP << endl << traits.NOT_MOVE_WALL_RIGHT << endl << traits.NOT_MOVE_WALL_LEFT << endl << traits.NOT_MOVE_WALL_DOWN << endl << traits.NOT_MOVE_WALL_UP << endl << traits.MOVE_FRUIT_RIGHT << endl << traits.MOVE_FRUIT_LEFT << endl << traits.MOVE_FRUIT_DOWN << endl << traits.MOVE_FRUIT_UP << endl << traits.NOT_MOVE_SNAKEBODY_RIGHT << endl << traits.NOT_MOVE_SNAKEBODY_LEFT << endl << traits.NOT_MOVE_SNAKEBODY_DOWN << endl << traits.NOT_MOVE_SNAKEBODY_UP << endl << traits.MOVE_FRUIT_POSITIVE_X << endl << traits.MOVE_FRUIT_NEGATIVE_X << endl << traits.MOVE_FRUIT_POSITIVE_Y << endl << traits.MOVE_FRUIT_NEGATIVE_Y << endl << traits.emptyPriority << endl << traits.wallPriority << endl << traits.fruitPriority << endl << traits.snakebodyPriority << endl << traits.fruitDistancePriority;
     file.close();
 }
 
@@ -250,7 +250,7 @@ void Chromosome::readFromFile(string filename) {
         getline(file, currentLine);
         traits.NOT_MOVE_WALL_LEFT = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
-        traits.NOT_MOVE_WALL_LEFT = (DIRECTION)stoi(currentLine);
+        traits.NOT_MOVE_WALL_DOWN = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);
         traits.NOT_MOVE_WALL_UP = (DIRECTION)stoi(currentLine);
         getline(file, currentLine);

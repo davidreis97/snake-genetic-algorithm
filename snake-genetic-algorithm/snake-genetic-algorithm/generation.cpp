@@ -8,31 +8,68 @@
 
 #include "generation.hpp"
 
+void Generation::nextThread(int minIndex, int maxIndex){
+    SnakeGame snake;
+    std::thread::id threadID = std::this_thread::get_id();
+    int filesPerGeneration = 10;
+    for(int i = minIndex; i < maxIndex; i++){
+        snake.resetGame();
+        while(snake.nextTick(subjects[i].generateNextMove(snake))){}; // Returns false and breaks loop once game ends
+        subjects[i].setFitness(snake.getFitness());
+        if (subjects[i].getFitness() > maxFitness){
+            maxFitness = subjects[i].getFitness();
+            cout << maxFitness << " - Thread " << threadID << endl;
+            stringstream ss;
+            ss << generationID;
+            subjects[i].writeToFile("chromobest" + ss.str());
+        }else if (i%(subjects.size()/filesPerGeneration)== 0){
+            stringstream ss;
+            ss << generationID << "_" << i;
+            subjects[i].writeToFile("chromo" + ss.str());
+        }
+    }
+}
+
 void Generation::runSnake(bool drawGame, int timeBetweenMove) {
     maxFitness = 0;
     int subjectID = 0;
-    SnakeGame snake;
-    for(vector<Chromosome>::iterator it = subjects.begin(); it != subjects.end(); it++, subjectID++){
-        snake.createNewGame();
-        while(snake.nextTick((*it).generateNextMove(snake))){
-            if (drawGame) {
-                snake.drawGame();
-                if (timeBetweenMove) std::this_thread::sleep_for(std::chrono::milliseconds(timeBetweenMove));
+    if(!drawGame){ //Multi-threading
+        unsigned maxThreads = std::thread::hardware_concurrency();
+        cout << "Max Threads: " << maxThreads << endl;
+        std::vector<std::thread> threads(maxThreads);
+        int index = 0;
+        for(vector<std::thread>::iterator it = threads.begin(); it != threads.end(); it++, index += (getPopulation()/maxThreads)){
+            (*it) = std::thread(&Generation::nextThread, this, index, index + (getPopulation()/maxThreads));
+        }
+        
+        for(vector<std::thread>::iterator it = threads.begin(); it != threads.end(); it++){
+            (*it).join();
+        }
+        
+    }else{ //Printing games: No multi-threading
+        for(vector<Chromosome>::iterator it = subjects.begin(); it != subjects.end(); it++, subjectID++){
+            SnakeGame snake;
+            while(snake.nextTick((*it).generateNextMove(snake))){
+                if (drawGame) {
+                    snake.drawGame();
+                    if (timeBetweenMove) std::this_thread::sleep_for(std::chrono::milliseconds(timeBetweenMove));
+                }
+            }
+            (*it).setFitness(snake.getFitness());
+            if ((*it).getFitness() > maxFitness){
+                maxFitness = (*it).getFitness();
+                cout << maxFitness << endl;
+                stringstream ss;
+                ss << generationID;
+                (*it).writeToFile("chromobest" + ss.str());
+            }else if (subjectID%10000 == 0){
+                stringstream ss;
+                ss << generationID << "_" << subjectID;
+                (*it).writeToFile("chromo" + ss.str());
             }
         }
-        (*it).setFitness(snake.getFitness());
-        if ((*it).getFitness() > maxFitness){
-            maxFitness = (*it).getFitness();
-            cout << maxFitness << endl;
-            stringstream ss;
-            ss << generationID;
-            (*it).writeToFile("chromobest" + ss.str());
-        }else if (subjectID%10000 == 0){
-            stringstream ss;
-            ss << generationID << "_" << subjectID;
-            (*it).writeToFile("chromo" + ss.str());
-        }
     }
+    
     cout << "Generation " << generationID << " has finished playing. Max Fitness was " << maxFitness << ", Average Fitness was " << getAverageFitness() << endl;
 }
 

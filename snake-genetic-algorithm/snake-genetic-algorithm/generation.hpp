@@ -56,6 +56,7 @@ public:
     void mating(vector<Chromosome>& children, Chromosome father, Chromosome mother);
     double getAverageFitness();
     unsigned long getPopulation(){return subjects.size();}
+    void nextThread(int index, int maxSteps);
 };
 
 #endif /* generation_hpp */

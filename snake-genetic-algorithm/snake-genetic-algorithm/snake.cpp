@@ -18,7 +18,7 @@ SnakeGame::SnakeGame(){
     POS head;
     head.x = 10;
     head.y = 10;
-    
+        
     snake.push_back(head);
     snake.push_back(middle);
     snake.push_back(tail);
@@ -49,14 +49,14 @@ SnakeGame::SnakeGame(){
     totalTickCount = 1;
 }
 
-void SnakeGame::createNewGame(){
+void SnakeGame::resetGame(){
     gameBoard[currentFruit.x][currentFruit.y] = EMPTY;
     
     for(deque<POS>::iterator it = snake.begin(); it != snake.end(); it++){
         gameBoard[(*it).x][(*it).y] = EMPTY;
     }
     
-    deque<POS> newSnake;
+    snake.clear();
     
     POS tail;
     tail.x = 10;
@@ -68,11 +68,9 @@ void SnakeGame::createNewGame(){
     head.x = 10;
     head.y = 10;
     
-    newSnake.push_back(head);
-    newSnake.push_back(middle);
-    newSnake.push_back(tail);
-    
-    snake = newSnake;
+    snake.push_back(head);
+    snake.push_back(middle);
+    snake.push_back(tail);
     
     gameBoard[10][10] = SNAKEHEAD;
     gameBoard[10][11] = SNAKEBODY;
